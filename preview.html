@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Slack – Notification Onboarding (Preview)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;600;700&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --slack-purple: #4a154b;
+        --slack-green: #2eb886;
+        --slack-green-hover: #238f6a;
+        --text-primary: #1d1c1d;
+        --text-secondary: #616061;
+        --border: #e8e8e8;
+        --bg-card: #fff;
+        --bg-page: #f8f8f8;
+        --shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+        --radius: 12px;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: var(--bg-page);
+        color: var(--text-primary);
+        min-height: 100vh;
+        line-height: 1.5;
+        font-size: 15px;
+      }
+      .slack-app { display: flex; min-height: 100vh; }
+      .slack-sidebar {
+        width: 260px;
+        min-width: 260px;
+        background: #3f0e40;
+        color: rgba(255,255,255,0.95);
+        display: flex;
+        flex-direction: column;
+      }
+      .slack-sidebar-header {
+        padding: 12px 16px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .workspace-switcher {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 4px 8px;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+      .workspace-switcher:hover { background: rgba(255, 255, 255, 0.1); }
+      .workspace-icon {
+        width: 36px; height: 36px;
+        background: var(--slack-purple);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 18px;
+        color: white;
+      }
+      .workspace-name { flex: 1; font-weight: 600; font-size: 15px; }
+      .slack-nav { padding: 12px 8px 8px; display: flex; flex-direction: column; gap: 2px; }
+      .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 8px 12px;
+        border: none;
+        background: transparent;
+        color: rgba(255,255,255,0.95);
+        font-size: 15px;
+        cursor: pointer;
+        border-radius: 6px;
+        text-align: left;
+        width: 100%;
+        font-family: inherit;
+      }
+      .nav-item:hover { background: rgba(255, 255, 255, 0.08); }
+      .nav-icon { font-size: 18px; width: 24px; text-align: center; }
+      .slack-channels { flex: 1; padding: 8px 12px; }
+      .channels-header {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        padding: 4px 0;
+        font-size: 13px;
+        font-weight: 600;
+      }
+      .channel-item {
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-size: 15px;
+        color: rgba(255,255,255,0.65);
+        cursor: pointer;
+      }
+      .channel-item:hover {
+        background: rgba(255, 255, 255, 0.08);
+        color: rgba(255,255,255,0.95);
+      }
+      .slack-sidebar-footer {
+        padding: 12px 16px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .user-profile {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 4px 8px;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+      .user-profile:hover { background: rgba(255, 255, 255, 0.08); }
+      .user-avatar {
+        width: 36px; height: 36px;
+        background: var(--slack-green);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 14px;
+        color: white;
+      }
+      .user-info { display: flex; flex-direction: column; }
+      .user-name { font-weight: 600; font-size: 15px; }
+      .user-status { font-size: 13px; color: rgba(255,255,255,0.65); }
+      .slack-main {
+        flex: 1;
+        background: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px;
+      }
+      .onboarding-panel { max-width: 520px; width: 100%; }
+      .onboarding-panel h1 {
+        font-size: 28px;
+        font-weight: 700;
+        margin: 0 0 8px;
+        letter-spacing: -0.2px;
+      }
+      .onboarding-panel .subtitle {
+        font-size: 15px;
+        color: var(--text-secondary);
+        margin: 0 0 24px;
+      }
+      .option-card {
+        display: flex;
+        align-items: flex-start;
+        gap: 16px;
+        width: 100%;
+        padding: 16px 20px;
+        margin-bottom: 8px;
+        background: var(--bg-card);
+        border: 2px solid var(--border);
+        border-radius: var(--radius);
+        cursor: pointer;
+        text-align: left;
+        transition: border-color 0.15s, box-shadow 0.15s;
+        font-family: inherit;
+      }
+      .option-card:hover { border-color: #c4c4c4; }
+      .option-card.selected {
+        border-color: var(--slack-purple);
+        box-shadow: var(--shadow);
+        background: #fdf8fd;
+      }
+      .option-card strong { display: block; font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+      .option-card span { font-size: 14px; color: var(--text-secondary); }
+      .continue-btn {
+        width: 100%;
+        margin-top: 24px;
+        padding: 12px 20px;
+        font-size: 15px;
+        font-weight: 600;
+        color: white;
+        background: var(--slack-green);
+        border: none;
+        border-radius: var(--radius);
+        cursor: pointer;
+        transition: background 0.15s;
+        font-family: inherit;
+      }
+      .continue-btn:hover:not(:disabled) { background: var(--slack-green-hover); }
+      .continue-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+      .onboarding-hint { margin-top: 16px; font-size: 13px; color: #8b8b8b; }
+    </style>
+  </head>
+  <body>
+    <div class="slack-app">
+      <aside class="slack-sidebar">
+        <div class="slack-sidebar-header">
+          <div class="workspace-switcher">
+            <div class="workspace-icon">W</div>
+            <span class="workspace-name">Acme Corp</span>
+            <span>›</span>
+          </div>
+        </div>
+        <nav class="slack-nav">
+          <button type="button" class="nav-item"><span class="nav-icon">🏠</span><span>Home</span></button>
+          <button type="button" class="nav-item"><span class="nav-icon">✉️</span><span>DMs</span></button>
+          <button type="button" class="nav-item"><span class="nav-icon">🔔</span><span>Activity</span></button>
+          <button type="button" class="nav-item"><span class="nav-icon">📌</span><span>Later</span></button>
+          <button type="button" class="nav-item"><span class="nav-icon">⋯</span><span>More</span></button>
+          <button type="button" class="nav-item"><span class="nav-icon">+</span><span>Create</span></button>
+        </nav>
+        <div class="slack-channels">
+          <div class="channels-header"><span>▼</span><span>Channels</span></div>
+          <div class="channel-item"># general</div>
+          <div class="channel-item"># random</div>
+          <div class="channel-item"># announcements</div>
+        </div>
+        <div class="slack-sidebar-footer">
+          <div class="user-profile">
+            <div class="user-avatar">U</div>
+            <div class="user-info">
+              <span class="user-name">You</span>
+              <span class="user-status">Active</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+      <main class="slack-main">
+        <div class="onboarding-panel">
+          <h1>How do you want to stay updated?</h1>
+          <p class="subtitle">Choose how you'd like to be notified when you're away from Slack.</p>
+          <button type="button" class="option-card" data-value="dms_only">
+            <div><strong>DMs only</strong><span>Only notify me for direct messages</span></div>
+          </button>
+          <button type="button" class="option-card" data-value="mentions_only">
+            <div><strong>Mentions only</strong><span>Only notify me when someone @mentions me</span></div>
+          </button>
+          <button type="button" class="option-card" data-value="everything">
+            <div><strong>Everything</strong><span>Notify me for all activity (channels, DMs, mentions)</span></div>
+          </button>
+          <button type="button" class="option-card" data-value="off">
+            <div><strong>Off</strong><span>I'll check Slack on my own time</span></div>
+          </button>
+          <button type="button" class="continue-btn" id="continue" disabled>Continue</button>
+          <p class="onboarding-hint">You can always change this later in Settings.</p>
+        </div>
+      </main>
+    </div>
+    <script>
+      document.querySelectorAll('.option-card').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.option-card').forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+          document.getElementById('continue').disabled = false;
+        });
+      });
+      document.getElementById('continue').addEventListener('click', () => {
+        alert('Onboarding complete! (Static preview)');
+      });
+    </script>
+  </body>
+</html>

@@ -1,3 +1,47 @@
+# Slack Notification Onboarding
+
+Project skeleton for the notification onboarding feature. See [prd.md](./prd.md) for full product requirements.
+
+## Project structure
+
+The codebase is split into two main folders:
+
+| Folder | Purpose |
+|--------|---------|
+| **interface/** | App's UI: screens, components, and assets. User-facing layer. |
+| **core/** | Internal logic: types, state, and services. No UI; consumed by `interface/`. |
+
+- **interface/** – `screens/` (onboarding notification screen), `components/`, `assets/`, `App.tsx`, `main.tsx`
+- **core/** – `types/` (NotificationPreference), `state/`, `services/` (notification, onboarding)
+
+Dependency rule: `interface` imports from `core`; `core` does not import from `interface`.
+
+## Add to slack.com (browser extension)
+
+To add the notification onboarding to **slack.com** for new users:
+
+1. Go to `chrome://extensions`
+2. Enable **Developer mode** → **Load unpacked**
+3. Select the `extension` folder
+4. Visit https://app.slack.com — the onboarding will show on first visit per workspace
+
+See `extension/README.md` for details.
+
+## Quick preview (no setup)
+
+Open **`preview.html`** in your browser to see the onboarding screen. No Node or npm required.
+
+## Scripts (requires Node.js)
+
+```bash
+npm install
+npm run dev        # Start dev server
+npm run build      # Production build
+npm run typecheck  # TypeScript check
+```
+
+---
+
 PRD - Slack notification Onboarding
 The Problem
 Right now, when you download Slack for the first time, you don't get a choice about notifications. Most apps give you that "Allow notifications?" prompt right when you install them - it's standard. But Slack? It just throws you into the app and starts pinging you (or doesn't, depending on your phone settings), and you're left figuring it out on your own.

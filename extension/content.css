@@ -1,0 +1,116 @@
+/* Slack Notification Onboarding - injected styles only, no changes to Slack's UI */
+
+#slack-notification-onboarding-root {
+  all: initial;
+  font-family: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+}
+
+.slack-onboarding-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2147483647;
+  padding: 20px;
+}
+
+.slack-onboarding-modal {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 32px;
+  max-width: 520px;
+  width: 100%;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+}
+
+.slack-onboarding-modal h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1d1c1d;
+  margin: 0 0 8px;
+  letter-spacing: -0.2px;
+  line-height: 1.25;
+}
+
+.slack-onboarding-subtitle {
+  font-size: 15px;
+  color: #616061;
+  margin: 0 0 24px;
+  line-height: 1.5;
+}
+
+.slack-onboarding-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.slack-onboarding-option {
+  display: block;
+  width: 100%;
+  padding: 16px 20px;
+  background: #fff;
+  border: 2px solid #e8e8e8;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+}
+
+.slack-onboarding-option:hover {
+  border-color: #c4c4c4;
+}
+
+.slack-onboarding-option.selected {
+  border-color: #4a154b;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  background: #fdf8fd;
+}
+
+.slack-onboarding-option strong {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: #1d1c1d;
+}
+
+.slack-onboarding-option span {
+  font-size: 14px;
+  color: #616061;
+  line-height: 1.5;
+}
+
+.slack-onboarding-continue {
+  width: 100%;
+  margin-top: 24px;
+  padding: 12px 20px;
+  font-size: 15px;
+  font-weight: 600;
+  color: white;
+  background: #2eb67d;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+
+.slack-onboarding-continue:hover:not(:disabled) {
+  background: #238f6a;
+}
+
+.slack-onboarding-continue:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.slack-onboarding-hint {
+  margin-top: 16px;
+  font-size: 13px;
+  color: #8b8b8b;
+  line-height: 1.5;
+}
