@@ -1,58 +1,25 @@
-PRD - Slack notification Onboarding
-The Problem
-Right now, when you download Slack for the first time, you don't get a choice about notifications. Most apps give you that "Allow notifications?" prompt right when you install them - it's standard. But Slack? It just throws you into the app and starts pinging you (or doesn't, depending on your phone settings), and you're left figuring it out on your own.
-This is annoying for a few reasons:
-You have no control from the start. If you join a busy workspace, you could get hit with 50+ notifications on day one before you even know where the settings are. Or on the flip side, you might miss important DMs because notifications are off by default and you didn't realize it.
-It's not how people expect apps to work anymore. Every other app asks upfront - Instagram, Twitter, your banking app, whatever. Slack skipping this step just feels off and leaves users scrambling to figure out notification settings after they're already overwhelmed or confused.
-The people it affects: Anyone using Slack. New users joining their first workspace, people hopping into a new team Slack, basically everyone who hasn't already spent time digging through settings to customize everything.
-
-What We're Trying to Fix
-We want to give users control over their notifications right from the start - during the onboarding process. No more getting thrown into the deep end. No more having to google "how to turn off Slack notifications" on day two.
-The idea is simple: when you first set up Slack (or join a new workspace), we present you with clear options about what you want to be notified about. You pick what works for you, and then you're good to go.
-The options we're thinking:
-DMs only - you only get notified when someone sends you a direct message
-Mentions only - you get notified when someone @mentions you specifically
-Everything - all notifications on (channels, DMs, mentions, the whole thing)
-Off - no notifications at all
-This way, people can make an informed choice based on how they actually want to use Slack, instead of just dealing with whatever the default is.
-
-Goals & What Success Looks Like
-Our main goal: Users feel in control of their notification experience from day one.
-How we'll know it's working:
-Fewer people immediately turning off ALL notifications because they're overwhelmed
-Less searching for "notification settings" right after onboarding
-People actually engaging with the notifications they DO get, because they chose what they wanted
-Basically, we want people to feel like Slack respects their time and attention from the jump.
-
-The Solution - How It Works
-Here's what the experience would look like:
-Step 1: You download Slack and create your account (or get invited to a workspace)
-Step 2: Right after you enter your workspace for the first time, before you even see channels or messages, you get a screen that says something like:
-"How do you want to stay updated?"
-Then you see the four options laid out clearly:
-DMs only - "Only notify me for direct messages"
-Mentions only - "Only notify me when someone @mentions me"
-Everything - "Notify me for all activity (channels, DMs, mentions)"
-Off - "I'll check Slack on my own time"
-Step 3: You pick one. Done. You're in the app and your notifications are set up the way YOU want them.
-Optional: We could also add a small line like "You can always change this later in Settings" so people don't feel locked in.
-
-What We're Doing (and What We're Not)
-In scope:
-Designing the onboarding notification screen
-Creating the four notification options (DMs only, Mentions only, Everything, Off)
-Figuring out where this fits in the current setup flow
-Making sure it works for both new users and people joining additional workspaces
-Out of scope (at least for now):
-Redesigning the entire notification settings menu
-Differences between mobile and desktop (we'll focus on one first, probably mobile since that's where notifications matter most)
-Advanced customization like per-channel notification settings - that's still available in settings, we're just covering the basics upfront
-Future stuff we might consider:
-Letting people preview what each option means (like "with this setting, you'd get about X notifications per day")
-Smart recommendations based on workspace size or type
-Different defaults for different kinds of workspaces (small team vs. huge company)
-
-Why This Matters
-At the end of the day, notifications are one of the first things people interact with in Slack. If that experience sucks, it colors everything else. Giving people a choice upfront shows respect for their time and makes the whole app feel more user-friendly.
-Plus, it's just the standard now. People expect to have control over notifications from the start. Slack should too.
+Updated PRD: Fixing the "Day One" Silence (Slack Notification Onboarding)
+1. The "Why" (Context)
+Let’s be honest: right now, the first five minutes of using our app feels a bit broken. When a user downloads Slack, they’re usually doing it because they need to stay in the loop. But currently, we don't even ask them how they want to be reached.
+We’re essentially handing them a walkie-talkie but leaving the volume turned all the way down. If they don’t happen to stumble into the settings menu, they miss DMs, deadlines, and mentions. The only way they know something happened is if they manually open the app—which, for a communication tool, is pretty much useless.
+2. The Goal
+We want to make sure no user ever says, "Oh, I didn't see your message because I didn't get a notification." We’re adding a simple, human-friendly "handshake" at the start. We want to give users the power to decide exactly how loud they want Slack to be before they even see their first message.
+3. What We’re Fixing (The Problem)
+The Information Blackout: New users are missing critical pings because notifications aren't configured by default.
+The "Hide and Seek" Settings: Users shouldn't have to go on a treasure hunt through the "Preferences" menu just to make the app work.
+The Industry Gap: Every other app that matters (Banking, Uber, Instagram) asks this on Day 1. By skipping it, Slack feels behind the curve and slightly "off."
+4. The Solution (The "Handshake")
+We’re inserting one clear, easy-to-read screen into the onboarding flow. No technical jargon—just a simple question: "How do you want to stay updated?"
+The Four Choices:
+Everything: "I don't want to miss a thing." (All messages)
+The Essentials: "Just tell me when someone needs me." (Mentions & DMs)
+The Quiet Room: "Only break through for 1-on-1s." (DMs only)
+Manual Mode: "I’ll check the app when I’m ready." (Off)
+5. What Success Looks Like
+We’ll know this worked if:
+Retention goes up: People actually use the app because it’s actually telling them things.
+Notification "Enabled" rates climb: More users are "plugged in" from the start.
+Fewer "Silent" Users: We see a drop in users who have the app installed but don't respond to messages for 24+ hours.
+6. Personal Touch / Final Note
+This isn't just about adding another screen to the flow. It’s about respecting the user’s time. We’re giving them the remote control to their own attention. It’s a small change, but it’s the difference between Slack being a tool they rely on versus an app they forget about.
 
