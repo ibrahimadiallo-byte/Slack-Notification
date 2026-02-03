@@ -8,6 +8,7 @@ const STORAGE_KEY = 'slack-notification-onboarding';
 const OPTIONS = [
   { value: 'dms_only', title: 'DMs only', description: 'Only notify me for direct messages' },
   { value: 'mentions_only', title: 'Mentions only', description: 'Only notify me when someone @mentions me' },
+  { value: 'channels', title: 'Channels', description: 'Notify me for channel activity' },
   { value: 'everything', title: 'Everything', description: 'Notify me for all activity (channels, DMs, mentions)' },
   { value: 'off', title: 'Off', description: "I'll check Slack on my own time" }
 ];
@@ -39,8 +40,8 @@ function createOverlay() {
   overlay.innerHTML = `
     <div class="slack-onboarding-backdrop">
       <div class="slack-onboarding-modal">
-        <h1>How do you want to stay updated?</h1>
-        <p class="slack-onboarding-subtitle">Choose how you'd like to be notified when you're away from Slack.</p>
+        <h1>How do you want to stay updated? 🧐</h1>
+        <p class="slack-onboarding-subtitle">Pick 1 or 2 options. Choose how you'd like to be notified when you're away from Slack.</p>
         <div class="slack-onboarding-options">
           ${OPTIONS.map((opt, i) => `
             <button type="button" class="slack-onboarding-option" data-value="${opt.value}">
@@ -55,23 +56,30 @@ function createOverlay() {
     </div>
   `;
 
-  let selected = null;
+  let selected = [];
 
   overlay.querySelectorAll('.slack-onboarding-option').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
-      overlay.querySelectorAll('.slack-onboarding-option').forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-      selected = btn.dataset.value;
-      overlay.querySelector('.slack-onboarding-continue').disabled = false;
+      const value = btn.dataset.value;
+      const idx = selected.indexOf(value);
+      if (idx >= 0) {
+        selected = selected.filter((v) => v !== value);
+        btn.classList.remove('selected');
+      } else if (selected.length < 2) {
+        selected = [...selected, value];
+        btn.classList.add('selected');
+      }
+      const continueBtn = overlay.querySelector('.slack-onboarding-continue');
+      continueBtn.disabled = selected.length < 1 || selected.length > 2;
     }, true);
   });
 
   overlay.querySelector('.slack-onboarding-continue').addEventListener('click', async (e) => {
     e.preventDefault();
     e.stopPropagation();
-    if (!selected) return;
+    if (selected.length < 1 || selected.length > 2) return;
     await savePreference(selected);
     overlay.remove();
   }, true);

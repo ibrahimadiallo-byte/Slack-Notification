@@ -227,13 +227,16 @@
       </aside>
       <main class="slack-main">
         <div class="onboarding-panel">
-          <h1>How do you want to stay updated?</h1>
-          <p class="subtitle">Choose how you'd like to be notified when you're away from Slack.</p>
+          <h1>How do you want to stay updated? 🧐</h1>
+          <p class="subtitle">Pick 1 or 2 options. Choose how you'd like to be notified when you're away from Slack.</p>
           <button type="button" class="option-card" data-value="dms_only">
             <div><strong>DMs only</strong><span>Only notify me for direct messages</span></div>
           </button>
           <button type="button" class="option-card" data-value="mentions_only">
             <div><strong>Mentions only</strong><span>Only notify me when someone @mentions me</span></div>
+          </button>
+          <button type="button" class="option-card" data-value="channels">
+            <div><strong>Channels</strong><span>Notify me for channel activity</span></div>
           </button>
           <button type="button" class="option-card" data-value="everything">
             <div><strong>Everything</strong><span>Notify me for all activity (channels, DMs, mentions)</span></div>
@@ -247,14 +250,23 @@
       </main>
     </div>
     <script>
+      let selected = [];
       document.querySelectorAll('.option-card').forEach(btn => {
         btn.addEventListener('click', () => {
-          document.querySelectorAll('.option-card').forEach(b => b.classList.remove('selected'));
-          btn.classList.add('selected');
-          document.getElementById('continue').disabled = false;
+          const value = btn.dataset.value;
+          const idx = selected.indexOf(value);
+          if (idx >= 0) {
+            selected = selected.filter(v => v !== value);
+            btn.classList.remove('selected');
+          } else if (selected.length < 2) {
+            selected = [...selected, value];
+            btn.classList.add('selected');
+          }
+          document.getElementById('continue').disabled = selected.length < 1 || selected.length > 2;
         });
       });
       document.getElementById('continue').addEventListener('click', () => {
+        if (selected.length < 1 || selected.length > 2) return;
         alert('Onboarding complete! (Static preview)');
       });
     </script>

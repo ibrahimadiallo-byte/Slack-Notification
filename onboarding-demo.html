@@ -255,10 +255,11 @@
 
           <!-- Step 3: Notifications (PRD) -->
           <div class="step" id="step3">
-            <h1>How do you want to stay updated?</h1>
-            <p class="subtitle">Choose how you'd like to be notified when you're away from Slack.</p>
+            <h1>How do you want to stay updated? 🧐</h1>
+            <p class="subtitle">Pick 1 or 2 options. Choose how you'd like to be notified when you're away from Slack.</p>
             <button type="button" class="option-card" data-value="dms_only"><strong>DMs only</strong><span>Only notify me for direct messages</span></button>
             <button type="button" class="option-card" data-value="mentions_only"><strong>Mentions only</strong><span>Only notify me when someone @mentions me</span></button>
+            <button type="button" class="option-card" data-value="channels"><strong>Channels</strong><span>Notify me for channel activity</span></button>
             <button type="button" class="option-card" data-value="everything"><strong>Everything</strong><span>Notify me for all activity (channels, DMs, mentions)</span></button>
             <button type="button" class="option-card" data-value="off"><strong>Off</strong><span>I'll check Slack on my own time</span></button>
             <button type="button" class="btn-primary" id="finish" disabled>Continue</button>
@@ -277,7 +278,7 @@
 
     <script>
       let currentStep = 1;
-      let selectedPref = null;
+      let selectedPref = [];
       let workspaceName = 'Slack';
 
       function showStep(n) {
@@ -308,17 +309,23 @@
 
       document.querySelectorAll('.option-card').forEach(btn => {
         btn.onclick = () => {
-          document.querySelectorAll('.option-card').forEach(b => b.classList.remove('selected'));
-          btn.classList.add('selected');
-          selectedPref = btn.dataset.value.replace(/_/g, ' ');
-          document.getElementById('finish').disabled = false;
+          const value = btn.dataset.value;
+          const idx = selectedPref.indexOf(value);
+          if (idx >= 0) {
+            selectedPref = selectedPref.filter(v => v !== value);
+            btn.classList.remove('selected');
+          } else if (selectedPref.length < 2) {
+            selectedPref = [...selectedPref, value];
+            btn.classList.add('selected');
+          }
+          document.getElementById('finish').disabled = selectedPref.length < 1 || selectedPref.length > 2;
         };
       });
 
       document.getElementById('finish').onclick = () => {
-        if (!selectedPref) return;
+        if (selectedPref.length < 1 || selectedPref.length > 2) return;
         document.getElementById('chosen-ws').textContent = workspaceName;
-        document.getElementById('chosen-pref').textContent = selectedPref;
+        document.getElementById('chosen-pref').textContent = selectedPref.map(v => v.replace(/_/g, ' ')).join(' and ');
         showStep(4);
       };
 
@@ -326,7 +333,7 @@
         document.getElementById('email').value = '';
         document.getElementById('workspace').value = '';
         document.querySelectorAll('.option-card').forEach(b => b.classList.remove('selected'));
-        selectedPref = null;
+        selectedPref = [];
         workspaceName = 'Slack';
         document.getElementById('sidebar-workspace').textContent = 'Slack';
         document.getElementById('sidebar-user').textContent = 'You';

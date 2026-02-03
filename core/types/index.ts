@@ -9,13 +9,19 @@ export type OnboardingStep =
 
 /**
  * Notification preference options for onboarding.
- * Maps to the four choices presented in the onboarding flow.
+ * Maps to the choices presented in the onboarding flow.
  */
 export type NotificationPreference =
   | 'dms_only'
   | 'mentions_only'
+  | 'channels'
   | 'everything'
   | 'off';
+
+/**
+ * User selects 1 or 2 options during onboarding.
+ */
+export type NotificationPreferenceSelection = [NotificationPreference] | [NotificationPreference, NotificationPreference];
 
 /**
  * Display metadata for each notification option.
@@ -27,7 +33,7 @@ export interface NotificationOption {
 }
 
 /**
- * Four notification options presented during onboarding.
+ * Five notification options presented during onboarding.
  */
 export const NOTIFICATION_OPTIONS: NotificationOption[] = [
   {
@@ -39,6 +45,11 @@ export const NOTIFICATION_OPTIONS: NotificationOption[] = [
     value: 'mentions_only',
     title: 'Mentions only',
     description: 'Only notify me when someone @mentions me',
+  },
+  {
+    value: 'channels',
+    title: 'Channels',
+    description: 'Notify me for channel activity',
   },
   {
     value: 'everything',

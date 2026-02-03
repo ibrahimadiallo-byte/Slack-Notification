@@ -2,7 +2,7 @@
  * Handles onboarding flow: completion status, preference save, and flow entry.
  */
 
-import type { NotificationPreference } from '../types';
+import type { NotificationPreference, NotificationPreferenceSelection } from '../types';
 
 const STORAGE_KEY = 'slack-notification-onboarding';
 
@@ -21,15 +21,17 @@ export function hasCompletedNotificationOnboarding(): boolean {
 }
 
 /**
- * Mark the notification onboarding step as complete and save the user's preference.
+ * Mark the notification onboarding step as complete and save the user's preference (1 or 2 choices).
  */
 export async function completeNotificationOnboarding(
-  preference: NotificationPreference
+  preferences: NotificationPreferenceSelection
 ): Promise<void> {
   try {
+    const list = Array.isArray(preferences) ? preferences : [preferences];
+    if (list.length < 1 || list.length > 2) return;
     localStorage.setItem(
       STORAGE_KEY,
-      JSON.stringify({ completed: true, preference })
+      JSON.stringify({ completed: true, preference: list })
     );
   } catch {
     // Ignore storage errors
