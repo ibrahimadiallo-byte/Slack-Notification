@@ -58,19 +58,23 @@ function createOverlay() {
   let selected = null;
 
   overlay.querySelectorAll('.slack-onboarding-option').forEach(btn => {
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
       overlay.querySelectorAll('.slack-onboarding-option').forEach(b => b.classList.remove('selected'));
       btn.classList.add('selected');
       selected = btn.dataset.value;
       overlay.querySelector('.slack-onboarding-continue').disabled = false;
-    });
+    }, true);
   });
 
-  overlay.querySelector('.slack-onboarding-continue').addEventListener('click', async () => {
+  overlay.querySelector('.slack-onboarding-continue').addEventListener('click', async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     if (!selected) return;
     await savePreference(selected);
     overlay.remove();
-  });
+  }, true);
 
   return overlay;
 }

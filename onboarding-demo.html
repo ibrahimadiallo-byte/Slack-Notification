@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Slack – Onboarding Demo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;600;700&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --slack-purple: #4a154b;
+        --slack-green: #2eb67d;
+        --slack-green-hover: #238f6a;
+        --text: #1d1c1d;
+        --text-secondary: #616061;
+        --border: #e8e8e8;
+        --radius: 8px;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: 'Lato', -apple-system, sans-serif;
+        background: #f8f8f8;
+        color: var(--text);
+        min-height: 100vh;
+        line-height: 1.5;
+        font-size: 15px;
+      }
+      /* Slack app layout */
+      .slack-app { display: flex; min-height: 100vh; }
+      .slack-sidebar {
+        width: 260px;
+        min-width: 260px;
+        background: #3f0e40;
+        color: rgba(255,255,255,0.95);
+        display: flex;
+        flex-direction: column;
+      }
+      .slack-sidebar-header {
+        padding: 12px 16px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .workspace-switcher {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 4px 8px;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+      .workspace-switcher:hover { background: rgba(255, 255, 255, 0.1); }
+      .workspace-icon {
+        width: 36px; height: 36px;
+        background: var(--slack-purple);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 18px;
+        color: white;
+      }
+      .workspace-name { flex: 1; font-weight: 600; font-size: 15px; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+      .slack-nav { padding: 12px 8px 8px; display: flex; flex-direction: column; gap: 2px; }
+      .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 8px 12px;
+        border: none;
+        background: transparent;
+        color: rgba(255,255,255,0.95);
+        font-size: 15px;
+        cursor: pointer;
+        border-radius: 6px;
+        text-align: left;
+        width: 100%;
+        font-family: inherit;
+      }
+      .nav-item:hover { background: rgba(255, 255, 255, 0.08); }
+      .nav-icon { font-size: 18px; width: 24px; text-align: center; }
+      .slack-channels { flex: 1; padding: 8px 12px; }
+      .channels-header {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        padding: 4px 0;
+        font-size: 13px;
+        font-weight: 600;
+      }
+      .channel-item {
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-size: 15px;
+        color: rgba(255,255,255,0.65);
+        cursor: pointer;
+      }
+      .channel-item:hover {
+        background: rgba(255, 255, 255, 0.08);
+        color: rgba(255,255,255,0.95);
+      }
+      .slack-sidebar-footer {
+        padding: 12px 16px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .user-profile {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 4px 8px;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+      .user-profile:hover { background: rgba(255, 255, 255, 0.08); }
+      .user-avatar {
+        width: 36px; height: 36px;
+        background: var(--slack-green);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 14px;
+        color: white;
+      }
+      .user-info { display: flex; flex-direction: column; min-width: 0; }
+      .user-name { font-weight: 600; font-size: 15px; }
+      .user-status { font-size: 13px; color: rgba(255,255,255,0.65); }
+      /* Main content */
+      .slack-main {
+        flex: 1;
+        background: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px;
+      }
+      .onboarding-content {
+        width: 100%;
+        max-width: 520px;
+      }
+      .onboarding-content h1 { font-size: 28px; font-weight: 700; margin: 0 0 8px; letter-spacing: -0.2px; }
+      .onboarding-content .subtitle { color: var(--text-secondary); font-size: 15px; margin: 0 0 24px; line-height: 1.5; }
+      input, .btn-primary {
+        width: 100%;
+        padding: 14px 16px;
+        font-size: 15px;
+        font-family: inherit;
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+        margin-bottom: 16px;
+      }
+      input:focus {
+        outline: none;
+        border-color: var(--slack-purple);
+        box-shadow: 0 0 0 1px var(--slack-purple);
+      }
+      .btn-primary {
+        background: var(--slack-green);
+        color: white;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        transition: background 0.15s;
+      }
+      .btn-primary:hover { background: var(--slack-green-hover); }
+      .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+      .step { display: none; }
+      .step.active { display: block; }
+      .option-card {
+        display: block;
+        width: 100%;
+        padding: 16px 20px;
+        margin-bottom: 8px;
+        background: #fff;
+        border: 2px solid var(--border);
+        border-radius: var(--radius);
+        cursor: pointer;
+        text-align: left;
+        font-family: inherit;
+        transition: border-color 0.15s, background 0.15s;
+      }
+      .option-card:hover { border-color: #c4c4c4; }
+      .option-card.selected { border-color: var(--slack-purple); background: #fdf8fd; }
+      .option-card strong { display: block; font-size: 15px; margin-bottom: 4px; }
+      .option-card span { font-size: 14px; color: var(--text-secondary); }
+      .hint { font-size: 13px; color: #8b8b8b; margin-top: 16px; }
+      .progress { display: flex; gap: 8px; margin-bottom: 24px; }
+      .progress-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); }
+      .progress-dot.done { background: var(--slack-green); }
+      .progress-dot.current { background: var(--slack-purple); }
+    </style>
+  </head>
+  <body>
+    <div class="slack-app">
+      <!-- Slack sidebar -->
+      <aside class="slack-sidebar">
+        <div class="slack-sidebar-header">
+          <div class="workspace-switcher">
+            <div class="workspace-icon">W</div>
+            <span class="workspace-name" id="sidebar-workspace">Slack</span>
+            <span>›</span>
+          </div>
+        </div>
+        <nav class="slack-nav">
+          <button type="button" class="nav-item"><span class="nav-icon">🏠</span><span>Home</span></button>
+          <button type="button" class="nav-item"><span class="nav-icon">✉️</span><span>DMs</span></button>
+          <button type="button" class="nav-item"><span class="nav-icon">🔔</span><span>Activity</span></button>
+          <button type="button" class="nav-item"><span class="nav-icon">📌</span><span>Later</span></button>
+          <button type="button" class="nav-item"><span class="nav-icon">⋯</span><span>More</span></button>
+          <button type="button" class="nav-item"><span class="nav-icon">+</span><span>Create</span></button>
+        </nav>
+        <div class="slack-channels">
+          <div class="channels-header"><span>▼</span><span>Channels</span></div>
+          <div class="channel-item"># general</div>
+          <div class="channel-item"># random</div>
+          <div class="channel-item"># announcements</div>
+        </div>
+        <div class="slack-sidebar-footer">
+          <div class="user-profile">
+            <div class="user-avatar">U</div>
+            <div class="user-info">
+              <span class="user-name" id="sidebar-user">You</span>
+              <span class="user-status">Active</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main content - onboarding steps -->
+      <main class="slack-main">
+        <div class="onboarding-content">
+          <div class="progress">
+            <span class="progress-dot" id="dot1"></span>
+            <span class="progress-dot" id="dot2"></span>
+            <span class="progress-dot" id="dot3"></span>
+          </div>
+
+          <!-- Step 1: Email -->
+          <div class="step active" id="step1">
+            <h1>What's your email?</h1>
+            <p class="subtitle">We'll use this for your account. No code verification needed.</p>
+            <input type="email" id="email" placeholder="name@company.com" />
+            <button type="button" class="btn-primary" id="next1">Continue</button>
+          </div>
+
+          <!-- Step 2: Workspace -->
+          <div class="step" id="step2">
+            <h1>Create your workspace</h1>
+            <p class="subtitle">Give your team a home. You can change this later.</p>
+            <input type="text" id="workspace" placeholder="Acme Corp" />
+            <button type="button" class="btn-primary" id="next2">Continue</button>
+          </div>
+
+          <!-- Step 3: Notifications (PRD) -->
+          <div class="step" id="step3">
+            <h1>How do you want to stay updated?</h1>
+            <p class="subtitle">Choose how you'd like to be notified when you're away from Slack.</p>
+            <button type="button" class="option-card" data-value="dms_only"><strong>DMs only</strong><span>Only notify me for direct messages</span></button>
+            <button type="button" class="option-card" data-value="mentions_only"><strong>Mentions only</strong><span>Only notify me when someone @mentions me</span></button>
+            <button type="button" class="option-card" data-value="everything"><strong>Everything</strong><span>Notify me for all activity (channels, DMs, mentions)</span></button>
+            <button type="button" class="option-card" data-value="off"><strong>Off</strong><span>I'll check Slack on my own time</span></button>
+            <button type="button" class="btn-primary" id="finish" disabled>Continue</button>
+            <p class="hint">You can always change this later in Settings.</p>
+          </div>
+
+          <!-- Step 4: Done -->
+          <div class="step" id="step4">
+            <h1>You're all set!</h1>
+            <p class="subtitle">Your workspace <strong id="chosen-ws"></strong> is ready. You chose <strong id="chosen-pref"></strong> for notifications.</p>
+            <button type="button" class="btn-primary" id="restart">Start over</button>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      let currentStep = 1;
+      let selectedPref = null;
+      let workspaceName = 'Slack';
+
+      function showStep(n) {
+        document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+        document.getElementById('step' + n).classList.add('active');
+        document.querySelectorAll('.progress-dot').forEach((d, i) => {
+          d.classList.remove('done', 'current');
+          if (i + 1 < n) d.classList.add('done');
+          if (i + 1 === n) d.classList.add('current');
+        });
+        currentStep = n;
+      }
+
+      document.getElementById('next1').onclick = () => {
+        const email = document.getElementById('email').value.trim();
+        if (!email) return;
+        document.getElementById('sidebar-user').textContent = email.split('@')[0];
+        showStep(2);
+      };
+
+      document.getElementById('next2').onclick = () => {
+        const ws = document.getElementById('workspace').value.trim();
+        if (!ws) return;
+        workspaceName = ws;
+        document.getElementById('sidebar-workspace').textContent = ws;
+        showStep(3);
+      };
+
+      document.querySelectorAll('.option-card').forEach(btn => {
+        btn.onclick = () => {
+          document.querySelectorAll('.option-card').forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+          selectedPref = btn.dataset.value.replace(/_/g, ' ');
+          document.getElementById('finish').disabled = false;
+        };
+      });
+
+      document.getElementById('finish').onclick = () => {
+        if (!selectedPref) return;
+        document.getElementById('chosen-ws').textContent = workspaceName;
+        document.getElementById('chosen-pref').textContent = selectedPref;
+        showStep(4);
+      };
+
+      document.getElementById('restart').onclick = () => {
+        document.getElementById('email').value = '';
+        document.getElementById('workspace').value = '';
+        document.querySelectorAll('.option-card').forEach(b => b.classList.remove('selected'));
+        selectedPref = null;
+        workspaceName = 'Slack';
+        document.getElementById('sidebar-workspace').textContent = 'Slack';
+        document.getElementById('sidebar-user').textContent = 'You';
+        document.getElementById('finish').disabled = true;
+        showStep(1);
+      };
+    </script>
+  </body>
+</html>
