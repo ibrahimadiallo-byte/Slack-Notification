@@ -14,8 +14,8 @@ export function SlackLayout({ children }: SlackLayoutProps) {
       <aside className="slack-sidebar">
         <div className="slack-sidebar-header">
           <div className="workspace-switcher">
-            <div className="workspace-icon">W</div>
-            <span className="workspace-name">Acme Corp</span>
+            <img src="/slack-logo.png" alt="Slack" className="workspace-logo" />
+            <span className="workspace-name">Slack</span>
             <span className="chevron">›</span>
           </div>
         </div>

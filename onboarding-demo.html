@@ -61,6 +61,12 @@
         font-size: 18px;
         color: white;
       }
+      .workspace-logo {
+        width: 36px; height: 36px;
+        object-fit: contain;
+        flex-shrink: 0;
+        border-radius: 8px;
+      }
       .workspace-name { flex: 1; font-weight: 600; font-size: 15px; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
       .slack-nav { padding: 12px 8px 8px; display: flex; flex-direction: column; gap: 2px; }
       .nav-item {
@@ -198,7 +204,7 @@
       <aside class="slack-sidebar">
         <div class="slack-sidebar-header">
           <div class="workspace-switcher">
-            <div class="workspace-icon">W</div>
+            <img class="workspace-logo" src="slack-logo.png" alt="Slack" />
             <span class="workspace-name" id="sidebar-workspace">Slack</span>
             <span>›</span>
           </div>
