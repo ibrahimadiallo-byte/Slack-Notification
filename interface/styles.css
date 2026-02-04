@@ -341,6 +341,11 @@ body {
   position: relative;
 }
 
+.flow-loading {
+  font-size: 15px;
+  color: var(--slack-text-muted);
+}
+
 .flow-step-indicator {
   display: flex;
   gap: 8px;

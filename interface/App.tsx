@@ -3,8 +3,9 @@
  * Flow: Authentication → OS Permissions → Preference Selection → Landing → Workspace
  */
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import type { OnboardingStep } from '../core/types';
+import { hasCompletedNotificationOnboarding } from '../core';
 import { SlackLayout } from './components/SlackLayout';
 import {
   AuthenticationScreen,
@@ -23,15 +24,34 @@ const STEPS: OnboardingStep[] = [
 export function App() {
   const [stepIndex, setStepIndex] = useState(0);
   const [inWorkspace, setInWorkspace] = useState(false);
+  const [isCheckingResume, setIsCheckingResume] = useState(true);
+
+  // Flow skip: if user already completed onboarding, go straight to workspace
+  useEffect(() => {
+    if (hasCompletedNotificationOnboarding()) {
+      setInWorkspace(true);
+    }
+    setIsCheckingResume(false);
+  }, []);
 
   const step = STEPS[stepIndex];
-  const goNext = () => {
+  const goNext = useCallback(() => {
     if (stepIndex < STEPS.length - 1) {
-      setStepIndex((i) => i + 1);
+      setStepIndex(stepIndex + 1);
     } else {
       setInWorkspace(true);
     }
-  };
+  }, [stepIndex]);
+
+  if (isCheckingResume) {
+    return (
+      <SlackLayout>
+        <div className="flow-overlay">
+          <p className="flow-loading">Loading…</p>
+        </div>
+      </SlackLayout>
+    );
+  }
 
   if (inWorkspace) {
     return (

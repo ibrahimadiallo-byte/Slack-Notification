@@ -3,8 +3,8 @@
  * Simulates the native OS permission request for web.
  */
 
-import { useState } from 'react';
-import { requestNotificationPermission } from '../../core';
+import { useState, useEffect } from 'react';
+import { requestNotificationPermission, getNotificationPermission } from '../../core';
 
 interface OSPermissionsScreenProps {
   onComplete: () => void;
@@ -12,6 +12,13 @@ interface OSPermissionsScreenProps {
 
 export function OSPermissionsScreen({ onComplete }: OSPermissionsScreenProps) {
   const [status, setStatus] = useState<'idle' | 'requesting' | 'granted' | 'denied'>('idle');
+
+  // Already granted: skip straight to next step
+  useEffect(() => {
+    if (getNotificationPermission() === 'granted') {
+      onComplete();
+    }
+  }, [onComplete]);
 
   const handleAllow = async () => {
     setStatus('requesting');
