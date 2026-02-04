@@ -66,13 +66,17 @@ We want to make sure no user ever says, "Oh, I didn't see your message because I
 
 ### 4. The Solution (The "Handshake")
 
-We're inserting one clear, easy-to-read screen into the onboarding flow. No technical jargon—just a simple question: **"How do you want to stay updated?"**
+We're inserting a clear onboarding flow before workspace entry. No technical jargon—just a simple question: **"How do you want to stay updated?"**
 
-**The Four Choices:**
-- **Everything:** "I don't want to miss a thing." (All messages)
-- **The Essentials:** "Just tell me when someone needs me." (Mentions & DMs)
-- **The Quiet Room:** "Only break through for 1-on-1s." (DMs only)
-- **Manual Mode:** "I'll check the app when I'm ready." (Off)
+**The flow:** Authentication → OS Permissions → Preference Selection → Landing → Workspace. Returning users skip straight to the workspace. If notifications are already allowed, we skip the OS permission step.
+
+**The five choices (pick 1 or 2):**
+
+- **DMs only** – "Only notify me for direct messages"
+- **Mentions only** – "Only notify me when someone @mentions me"
+- **Channels** – "Notify me for channel activity"
+- **Everything** – "Notify me for all activity (channels, DMs, mentions)"
+- **Off** – "I'll check Slack on my own time"
 
 ### 5. What Success Looks Like
 
